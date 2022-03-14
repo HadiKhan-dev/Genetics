@@ -1,4 +1,13 @@
+"""
+Code for computing the suffix array of a string using Nong et al.'s 2008 
+induced sorting algorithm
+"""
+
 def induced_sort(data,type_list,index_list,initial_positions):
+    """
+    Runs one round of the induced sorting algorithm to compute the 
+    suffix array
+    """
     
     final_list = [-1 for i in range(len(data))]
     max_char = max(data)
@@ -45,6 +54,10 @@ def induced_sort(data,type_list,index_list,initial_positions):
     return final_list
 
 def sais_numeric(data):
+    """
+    Computes the suffix array on a numerical list of data where the characters
+    are integers denoting their relative order
+    """
     
     max_char = max(data)
     type_list = [-1]*len(data)
@@ -110,11 +123,11 @@ def sais_numeric(data):
         for i in range(len(reduced_string)):
             reduced_string_suffix_array[reduced_string[i]] = i
     else:        
-        reduced_string_suffix_array = sais_numeric(reduced_string)
+        reduced_string_suffix_array = sais_numeric(reduced_string)[0]
     
     lms_sorted = [lms_starts[reduced_string_suffix_array[i]] for i in range(len(lms_starts))]
     
-    return induced_sort(data,type_list,index_list,lms_sorted)
+    return (induced_sort(data,type_list,index_list,lms_sorted),index_list)
     
 
 def sais(input_string):
@@ -131,5 +144,3 @@ def sais(input_string):
     num_string = list(map(lambda x: letter_dict[x],split))+[0]
 
     return sais_numeric(num_string)
-    
-
